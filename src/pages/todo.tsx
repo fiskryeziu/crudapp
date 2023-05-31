@@ -1,6 +1,6 @@
 import { contextProps } from "@trpc/react-query/shared";
 import { useSession, getSession } from "next-auth/react";
-import { useState } from "react";
+import { FormEvent, ReactElement, useState } from "react";
 import { api } from "~/utils/api";
 
 export default function TodoPage() {
@@ -8,10 +8,15 @@ export default function TodoPage() {
   const [inputTodo, setInputTodo] = useState("");
   const { status } = useSession();
 
-  const { mutate, isLoading } = api.todo.createTodo.useMutation({
+  const { data } = api.todos.getAll.useQuery();
+  console.log(data);
+  const { mutate, isLoading } = api.todos.createTodo.useMutation({
     onSuccess: () => {
       setInputTodo("");
-      void ctx.todo.invalidate();
+      void ctx.todos.invalidate();
+    },
+    onError: (error) => {
+      console.log(error.message);
     },
   });
 
@@ -27,6 +32,8 @@ export default function TodoPage() {
 
   const submitHandler = () => {
     //mutate method with the input in it
+    console.log("submit handler");
+    mutate({ text: "hello there" });
   };
 
   return (
