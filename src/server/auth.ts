@@ -6,6 +6,7 @@ import {
   type DefaultSession,
 } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
+import { redirect } from "next/dist/server/api-utils";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
 
@@ -45,11 +46,13 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
+
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
+
     }),
     /**
      * ...add more providers here.
