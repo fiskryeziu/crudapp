@@ -1,9 +1,16 @@
-import { contextProps } from "@trpc/react-query/shared";
-import { useSession, getSession } from "next-auth/react";
-import { FormEvent, ReactElement, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { api } from "~/utils/api";
 
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 export default function TodoPage() {
+  const [startDate, setStartDate] = useState<Date>(new Date());
+
+  console.log(startDate.toLocaleDateString());
+
   const [inputTodo, setInputTodo] = useState("");
 
   const { status } = useSession();
@@ -32,7 +39,7 @@ export default function TodoPage() {
   const submitHandler = () => {
     //mutate method with the input in it
     console.log("submit handler");
-    mutate({ text: inputTodo });
+    mutate({ text: inputTodo, startDate });
   };
 
   return (
@@ -51,9 +58,17 @@ export default function TodoPage() {
         <hr />
         <div>
           {todos?.map((todo) => (
-            <h1 key={todo.id}>{todo.title}</h1>
+            <h1 key={todo.id}>
+              {todo.title} {todo.startDate.toLocaleDateString()}
+            </h1>
           ))}
         </div>
+        <br />
+        <br />
+        <DatePicker
+          selected={startDate}
+          onChange={(date: Date) => setStartDate(date)}
+        />{" "}
       </main>
     </>
   );
