@@ -4,13 +4,12 @@ import { FormEvent, ReactElement, useState } from "react";
 import { api } from "~/utils/api";
 
 export default function TodoPage() {
-  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const [inputTodo, setInputTodo] = useState("");
+
   const { status } = useSession();
 
-  const { data } = api.todos.getAll.useQuery();
-  console.log(data);
-  const { mutate, isLoading } = api.todos.createTodo.useMutation({
+  const { data: todos } = api.todos.getAll.useQuery();
+  const { mutate } = api.todos.createTodo.useMutation({
     onSuccess: () => {
       setInputTodo("");
       void ctx.todos.invalidate();
@@ -33,7 +32,7 @@ export default function TodoPage() {
   const submitHandler = () => {
     //mutate method with the input in it
     console.log("submit handler");
-    mutate({ text: "hello there" });
+    mutate({ text: inputTodo });
   };
 
   return (
@@ -49,6 +48,12 @@ export default function TodoPage() {
           onChange={(e) => setInputTodo(e.target.value)}
         />
         <button onClick={submitHandler}>submit</button>
+        <hr />
+        <div>
+          {todos?.map((todo) => (
+            <h1 key={todo.id}>{todo.title}</h1>
+          ))}
+        </div>
       </main>
     </>
   );

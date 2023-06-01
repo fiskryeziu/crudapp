@@ -15,7 +15,12 @@ export const todoRouter = createTRPCRouter({
         }),
 
     getAll: protectedProcedure.query(async ({ ctx }) => {
-        return await ctx.prisma.todo.findMany();
+        const userId = ctx.session?.user.id
+        return await ctx.prisma.todo.findMany({
+            where: {
+                userId
+            }
+        });
     }),
 
     createTodo: protectedProcedure
@@ -27,7 +32,7 @@ export const todoRouter = createTRPCRouter({
             const userId = ctx.session?.user.id
             const todos = await ctx.prisma.todo.create({
                 data: {
-                    title: 'hello',
+                    title: input.text,
                     userId,
                 },
             })
