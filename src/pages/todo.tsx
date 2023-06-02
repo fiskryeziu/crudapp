@@ -68,7 +68,7 @@ export default function TodoPage() {
         <DatePicker
           selected={startDate}
           onChange={(date: Date) => setStartDate(date)}
-        />{" "}
+        />
       </main>
     </>
   );
