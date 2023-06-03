@@ -5,7 +5,7 @@ const PageLayout = (props: PropsWithChildren) => {
   return (
     <div className="flex h-screen flex-col">
       <Navbar />
-      <main>{props.children}</main>
+      <main className="flex h-screen justify-center">{props.children}</main>
     </div>
   );
 };

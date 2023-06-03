@@ -44,8 +44,6 @@ export default function TodoPage() {
 
   return (
     <>
-      <h1>Protected Page</h1>
-      <p>You can view this page because you are signed in.</p>
       <main>
         <h1>todo app</h1>
         <input

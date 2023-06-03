@@ -16,7 +16,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <>
-        <h1>getting started</h1>
         <AuthShowcase />
       </>
     </>
@@ -30,28 +29,12 @@ const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col justify-center">
       <button
-        className="bg-white/10 text-white hover:bg-white/20 rounded-full px-10 py-3 font-semibold no-underline transition"
+        className=" rounded-full bg-btn-primary  px-10 py-4 uppercase tracking-widest text-white duration-200 ease-in  hover:shadow-lg hover:shadow-btn-primary/50 hover:duration-100 hover:ease-in"
         onClick={() => void router.push("/todo")}
       >
         get started
-      </button>
-      <p className="text-white text-center text-2xl">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-      </p>
-      <button
-        className="bg-white/10 text-white hover:bg-white/20 rounded-full px-10 py-3 font-semibold no-underline transition"
-        onClick={
-          sessionData
-            ? () => void signOut()
-            : () =>
-                void signIn("", {
-                  callbackUrl: `${window.location.origin}/todo`,
-                })
-        }
-      >
-        {sessionData ? "Sign out" : "Sign in"}
       </button>
     </div>
   );
