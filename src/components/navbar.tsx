@@ -13,7 +13,7 @@ interface IStateProps {
 const Navbar: React.FC<IStateProps> = ({ open, setOpen }) => {
   const { data } = useSession();
   return (
-    <div className="flex justify-between bg-secondary px-4 py-4">
+    <div className="flex h-14 items-center justify-between bg-secondary px-4">
       <div className="flex gap-6">
         <button onClick={() => setOpen(!open)}>
           <HiBars3 size={30} color="white" />

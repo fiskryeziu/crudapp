@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from "react";
+import React, { type PropsWithChildren, useState } from "react";
 import Navbar from "./navbar";
 
 const PageLayout = (props: PropsWithChildren) => {
@@ -9,10 +9,12 @@ const PageLayout = (props: PropsWithChildren) => {
       <div className="flex">
         <div
           className={`left-0 bg-secondary duration-200 ease-in ${
-            open ? "w-64" : "-left-96  w-0"
+            open ? "h-[calc(100vh-3.5em)] w-64" : "-left-96  w-0"
           }`}
         ></div>
-        <main className="flex h-screen grow px-10">{props.children}</main>
+        <main className="flex h-[calc(100vh-3.5em)] w-screen grow px-10">
+          {props.children}
+        </main>
       </div>
     </div>
   );
