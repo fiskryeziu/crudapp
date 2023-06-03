@@ -29,7 +29,7 @@ const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex w-full items-center justify-center">
       <button
         className=" rounded-full bg-btn-primary  px-10 py-4 uppercase tracking-widest text-white duration-200 ease-in  hover:shadow-lg hover:shadow-btn-primary/50 hover:duration-100 hover:ease-in"
         onClick={() => void router.push("/todo")}

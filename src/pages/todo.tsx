@@ -44,7 +44,7 @@ export default function TodoPage() {
 
   return (
     <>
-      <main>
+      <main className="flex shrink-0 grow flex-col items-center justify-center">
         <h1>todo app</h1>
         <input
           type="text"
@@ -61,12 +61,12 @@ export default function TodoPage() {
             </h1>
           ))}
         </div>
-        <br />
-        <br />
-        <DatePicker
-          selected={startDate}
-          onChange={(date: Date) => setStartDate(date)}
-        />
+        <div>
+          <DatePicker
+            selected={startDate}
+            onChange={(date: Date) => setStartDate(date)}
+          />
+        </div>
       </main>
     </>
   );

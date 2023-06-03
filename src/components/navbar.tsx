@@ -5,12 +5,19 @@ import React from "react";
 import { HiBars3, HiHome } from "react-icons/hi2";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 
-const Navbar = () => {
+interface IStateProps {
+  open: boolean;
+  setOpen: (value: boolean) => void;
+}
+
+const Navbar: React.FC<IStateProps> = ({ open, setOpen }) => {
   const { data } = useSession();
   return (
     <div className="flex justify-between bg-secondary px-4 py-4">
       <div className="flex gap-6">
-        <HiBars3 size={30} color="white" />
+        <button onClick={() => setOpen(!open)}>
+          <HiBars3 size={30} color="white" />
+        </button>
         <Link href={"/"}>
           <HiHome size={28} color="white" />
         </Link>
