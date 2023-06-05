@@ -1,17 +1,19 @@
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { api } from "~/utils/api";
+import { HiArrowsUpDown } from "react-icons/hi2";
+import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import Empty from "~/components/empty";
+import TodoModal from "~/components/todoModal";
 
 export default function TodoPage() {
   const [startDate, setStartDate] = useState<Date>(new Date());
-
-  console.log(startDate.toLocaleDateString());
-
   const [inputTodo, setInputTodo] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   const { status } = useSession();
 
@@ -42,31 +44,40 @@ export default function TodoPage() {
     mutate({ text: inputTodo, startDate });
   };
 
+  const handlerOpenModal = () => {
+    setOpenModal((open) => !open);
+  };
+
   return (
     <>
-      <main className="flex shrink-0 grow flex-col items-center justify-center">
-        <h1>todo app</h1>
-        <input
-          type="text"
-          placeholder="add todo..."
-          value={inputTodo}
-          onChange={(e) => setInputTodo(e.target.value)}
-        />
-        <button onClick={submitHandler}>submit</button>
-        <hr />
-        <div>
+      <main className="flex   grow flex-col items-center gap-2">
+        <div className="my-10 flex w-1/2 items-center justify-between">
+          <button>
+            <TbSquareRoundedPlusFilled
+              size={50}
+              className="ease text-btn-primary duration-150 hover:brightness-125"
+              onClick={handlerOpenModal}
+            />
+          </button>
+
+          <button>
+            <HiArrowsUpDown size={25} className="text-white" />
+          </button>
+        </div>
+        <div className="flex w-1/2 flex-col gap-4">
           {todos?.map((todo) => (
-            <h1 key={todo.id}>
-              {todo.title} {todo.startDate.toLocaleDateString()}
-            </h1>
+            <div
+              key={todo.id}
+              className="flex items-center  justify-between  rounded-lg p-4 text-white outline outline-1 outline-white"
+            >
+              <p>{todo.title}</p>
+              <p>{todo.startDate.toLocaleDateString()}</p>
+            </div>
           ))}
         </div>
-        <div>
-          <DatePicker
-            selected={startDate}
-            onChange={(date: Date) => setStartDate(date)}
-          />
-        </div>
+        {openModal && <TodoModal />}
+
+        {todos === undefined || (todos.length === 0 && !openModal && <Empty />)}
       </main>
     </>
   );
