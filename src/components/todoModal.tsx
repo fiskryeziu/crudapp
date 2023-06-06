@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const TodoModal = () => {
+const TodoModal = ({ setOpen }: { setOpen: (value: boolean) => void }) => {
   const [focused, setFocused] = useState(false);
 
   const onFocus = () => setFocused(true);
@@ -26,7 +26,10 @@ const TodoModal = () => {
         onBlur={onBlur}
       />
       <div className="flex items-center justify-end gap-3 border-t border-secondary py-2">
-        <button className="rounded-md bg-secondary px-2 py-1 text-white hover:brightness-150">
+        <button
+          className="rounded-md bg-secondary px-2 py-1 text-white hover:brightness-150"
+          onClick={() => setOpen(false)}
+        >
           Cancel
         </button>
         <button className="rounded-md bg-red-400 px-2 py-1 text-white hover:bg-red-600">
