@@ -11,15 +11,30 @@ datasource db {
 }
 
 model Todo {
-  id        String   @id @default(cuid())
-  title     String
-  completed Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  startDate DateTime
-  endDate   DateTime?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  id            String   @id @default(cuid())
+  title         String
+  completed     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  startDate     DateTime
+  completedAt   DateTime?
+  specificDates SpecificDate[]
+  repeat        Repeat?
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+}
+
+model SpecificDate {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  todoId    String
+  todo      Todo     @relation(fields: [todoId], references: [id])
+}
+
+enum Repeat {
+  DAILY
+  WEEKLY
+  MONTHLY
 }
 
 // Necessary for Next auth
