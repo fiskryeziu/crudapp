@@ -9,6 +9,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Empty from "~/components/empty";
 import TodoModal from "~/components/todoModal";
+import TodoItem from "~/components/todoItem";
 
 export default function TodoPage() {
   const [startDate, setStartDate] = useState<Date>(new Date());
@@ -79,13 +80,7 @@ export default function TodoPage() {
         </div>
         <div className="flex w-1/2 flex-col gap-4">
           {todos?.map((todo) => (
-            <div
-              key={todo.id}
-              className="flex items-center  justify-between  rounded-lg p-4 text-white outline outline-1 outline-white"
-            >
-              <p>{todo.title}</p>
-              <p>{todo.startDate.toLocaleDateString()}</p>
-            </div>
+            <TodoItem todo={todo} key={todo.id} />
           ))}
         </div>
         {openModal && <TodoModal setOpen={setOpenModal} />}
