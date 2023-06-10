@@ -15,10 +15,10 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
   };
   return (
     <div
-      className={`flex items-center  justify-between  rounded-lg p-4 text-white outline outline-1 outline-white ${
+      className={`flex cursor-pointer  items-center  justify-between rounded-lg p-4 text-white outline outline-1 outline-white ${
         completed
-          ? "invisible h-0  p-0 opacity-0 outline-none transition-all duration-300"
-          : "visible h-auto opacity-100 duration-300"
+          ? "invisible absolute -z-10 block w-full translate-y-10 opacity-0 transition-all duration-300"
+          : "visible translate-y-0 opacity-100"
       }`}
     >
       <div className="flex items-center gap-6">
@@ -30,7 +30,12 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
         >
           {active && <MdDone className="text-white/20" />}
         </button>
-        <p>{todo.title}</p>
+        <div className="flex flex-col">
+          <p className="line-clamp-1">{todo.title}</p>
+          <p className="line-clamp-1 text-sm text-gray-500">
+            this is a sample desc
+          </p>
+        </div>
       </div>
       <p>{todo.startDate.toLocaleDateString()}</p>
     </div>

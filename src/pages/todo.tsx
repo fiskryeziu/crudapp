@@ -78,7 +78,7 @@ export default function TodoPage() {
             <HiArrowsUpDown size={25} className="text-white" />
           </button>
         </div>
-        <div className="flex w-1/2 flex-col gap-4">
+        <div className="relative flex w-1/2 flex-col gap-4">
           {todos?.map((todo) => (
             <TodoItem todo={todo} key={todo.id} />
           ))}
