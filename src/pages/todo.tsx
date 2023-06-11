@@ -58,6 +58,14 @@ export default function TodoPage() {
     month: "short",
   };
   const formattedDate = date.toLocaleDateString("en-US", options);
+  const pageProps = {
+    setOpen: setOpenModal,
+    onSubmit: submitHandler,
+    setTitle: setInputTitle,
+    setDesc: setInputDesc,
+    desc: inputDesc,
+    title: inputTitle,
+  };
   return (
     <>
       <main className="flex   grow flex-col items-center gap-2">
@@ -85,16 +93,7 @@ export default function TodoPage() {
             <TodoItem todo={todo} key={todo.id} />
           ))}
         </div>
-        {openModal && (
-          <TodoModal
-            setOpen={setOpenModal}
-            onSubmit={submitHandler}
-            setTitle={setInputTitle}
-            setDesc={setInputDesc}
-            desc={inputDesc}
-            title={inputTitle}
-          />
-        )}
+        {openModal && <TodoModal {...pageProps} />}
 
         {todos === undefined || (todos.length === 0 && !openModal && <Empty />)}
       </main>
