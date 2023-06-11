@@ -13,7 +13,8 @@ import TodoItem from "~/components/todoItem";
 
 export default function TodoPage() {
   const [startDate, setStartDate] = useState<Date>(new Date());
-  const [inputTodo, setInputTodo] = useState("");
+  const [inputTitle, setInputTitle] = useState("");
+  const [inputDesc, setInputDesc] = useState("");
   const [openModal, setOpenModal] = useState(false);
 
   const { status } = useSession();
@@ -21,7 +22,8 @@ export default function TodoPage() {
   const { data: todos } = api.todos.getAll.useQuery();
   const { mutate } = api.todos.createTodo.useMutation({
     onSuccess: () => {
-      setInputTodo("");
+      setInputTitle("");
+      setInputDesc("");
       void ctx.todos.invalidate();
     },
     onError: (error) => {
@@ -33,8 +35,8 @@ export default function TodoPage() {
 
   const submitHandler = () => {
     //mutate method with the input in it
-    console.log("submit handler");
-    mutate({ text: inputTodo, startDate });
+    mutate({ text: inputTitle, startDate, description: inputDesc });
+    setOpenModal(false);
   };
 
   const handlerOpenModal = () => {
@@ -83,7 +85,16 @@ export default function TodoPage() {
             <TodoItem todo={todo} key={todo.id} />
           ))}
         </div>
-        {openModal && <TodoModal setOpen={setOpenModal} />}
+        {openModal && (
+          <TodoModal
+            setOpen={setOpenModal}
+            onSubmit={submitHandler}
+            setTitle={setInputTitle}
+            setDesc={setInputDesc}
+            desc={inputDesc}
+            title={inputTitle}
+          />
+        )}
 
         {todos === undefined || (todos.length === 0 && !openModal && <Empty />)}
       </main>

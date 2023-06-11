@@ -1,6 +1,22 @@
 import React, { useState } from "react";
 
-const TodoModal = ({ setOpen }: { setOpen: (value: boolean) => void }) => {
+interface ITodoProps {
+  setOpen: (value: boolean) => void;
+  onSubmit: () => void;
+  title: string;
+  desc: string;
+  setTitle: (value: string) => void;
+  setDesc: (value: string) => void;
+}
+
+const TodoModal: React.FC<ITodoProps> = ({
+  setOpen,
+  onSubmit,
+  setTitle,
+  setDesc,
+  title,
+  desc,
+}) => {
   const [focused, setFocused] = useState(false);
 
   const onFocus = () => setFocused(true);
@@ -17,6 +33,8 @@ const TodoModal = ({ setOpen }: { setOpen: (value: boolean) => void }) => {
         className="bg-transparent text-white outline-none placeholder:text-gray-500"
         onFocus={onFocus}
         onBlur={onBlur}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
       />
       <input
         type="text"
@@ -24,6 +42,8 @@ const TodoModal = ({ setOpen }: { setOpen: (value: boolean) => void }) => {
         className="mb-2 bg-transparent text-white outline-none placeholder:text-gray-500"
         onFocus={onFocus}
         onBlur={onBlur}
+        value={desc}
+        onChange={(e) => setDesc(e.target.value)}
       />
       <div className="flex items-center justify-end gap-3 border-t border-secondary py-2">
         <button
@@ -32,7 +52,10 @@ const TodoModal = ({ setOpen }: { setOpen: (value: boolean) => void }) => {
         >
           Cancel
         </button>
-        <button className="rounded-md bg-red-400 px-2 py-1 text-white hover:bg-red-600">
+        <button
+          className="rounded-md bg-red-400 px-2 py-1 text-white hover:bg-red-600"
+          onClick={onSubmit}
+        >
           Add Task
         </button>
       </div>

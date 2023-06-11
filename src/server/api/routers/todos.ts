@@ -37,6 +37,7 @@ export const todoRouter = createTRPCRouter({
                     startDate: input.startDate,
                     title: input.text,
                     userId,
+                    description: input.description
                 },
             })
             return todos
