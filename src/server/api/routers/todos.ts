@@ -1,3 +1,4 @@
+import { Todo } from "@prisma/client";
 import { z } from "zod";
 import {
     createTRPCRouter,
@@ -15,12 +16,33 @@ export const todoRouter = createTRPCRouter({
         }),
 
     getAll: protectedProcedure.query(async ({ ctx }) => {
-        const userId = ctx.session?.user.id
-        return await ctx.prisma.todo.findMany({
+        const userId = ctx.session?.user.id;
+        const todos = await ctx.prisma.todo.findMany({
             where: {
-                userId
-            }
+                userId,
+            },
         });
+
+        const updatedTodos = await Promise.all(
+            todos.map(async (todo) => {
+                if (todo.repeat === 'DAILY') {
+                    const today = new Date();
+                    if (todo.completedAt !== null) {
+                        const completedAt = new Date(todo.completedAt.getTime() - 24 * 60 * 60 * 1000);
+                        if (completedAt < today) {
+                            // Update the todo's completed status
+                            await ctx.prisma.todo.update({
+                                where: { id: todo.id },
+                                data: { completed: false },
+                            });
+                            return { ...todo, completed: false };
+                        }
+                    }
+                }
+                return todo;
+            })
+        );
+        return updatedTodos;
     }),
 
     createTodo: protectedProcedure
