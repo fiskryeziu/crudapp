@@ -1,6 +1,7 @@
 import type { Todo } from "@prisma/client";
 import React, { useState } from "react";
 import { MdDone } from "react-icons/md";
+import { api } from "~/utils/api";
 
 interface ITodoProps {
   todo: Todo;
@@ -10,11 +11,25 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
   const [active, setActive] = useState(false);
   const [completed, setCompleted] = useState(false);
 
-  const clickHandler = () => {
+  const { mutate } = api.todos.todoCommpleted.useMutation({
+    onSuccess: () => {
+      // void ctx.todos.invalidate();
+      console.log("successfully updated to completed");
+    },
+    onError: (error) => {
+      console.log(error.message);
+    },
+  });
+
+  const ctx = api.useContext();
+
+  const clickHandler = (id: string) => {
+    mutate({
+      id,
+    });
     setCompleted(true);
   };
 
-  console.log(todo);
   return (
     <div
       className={`flex cursor-pointer  items-center  justify-between rounded-lg p-4 text-white outline outline-1 outline-white ${
@@ -28,7 +43,7 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
           className="flex h-4 w-4 items-center rounded-full border border-white/20"
           onMouseEnter={() => setActive(true)}
           onMouseLeave={() => setActive(false)}
-          onClick={clickHandler}
+          onClick={() => clickHandler(todo.id)}
         >
           {active && <MdDone className="text-white/20" />}
         </button>

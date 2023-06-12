@@ -27,22 +27,28 @@ export const todoRouter = createTRPCRouter({
             todos.map(async (todo) => {
                 if (todo.repeat === 'DAILY') {
                     const today = new Date();
-                    if (todo.completedAt !== null) {
-                        const completedAt = new Date(todo.completedAt.getTime() - 24 * 60 * 60 * 1000);
+                    if (todo.completedAt !== null && todo.completed) {
+                        const completedAt = todo.completedAt
                         if (completedAt < today) {
-                            // Update the todo's completed status
-                            await ctx.prisma.todo.update({
-                                where: { id: todo.id },
-                                data: { completed: false },
-                            });
-                            return { ...todo, completed: false };
+                            if (completedAt.getDate() < today.getDate()) {
+                                console.log(completedAt.getDate());
+                                // Update the todo's completed status
+                                await ctx.prisma.todo.update({
+                                    where: { id: todo.id },
+                                    data: { completed: false },
+                                });
+                                return { ...todo, completed: false };
+                            }
                         }
                     }
                 }
                 return todo;
             })
         );
-        return updatedTodos;
+        const filterTodo = updatedTodos.filter(todo => todo.completed === false)
+
+        return filterTodo
+
     }),
 
     createTodo: protectedProcedure
@@ -65,5 +71,23 @@ export const todoRouter = createTRPCRouter({
             return todos
 
         }),
+
+    todoCommpleted: protectedProcedure
+        .input(
+            z.object({
+                id: z.string()
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            await ctx.prisma.todo.update({
+                where: { id: input.id },
+                data: {
+                    completed: true,
+                    completedAt: new Date()
+                },
+            });
+
+
+        })
 
 });
