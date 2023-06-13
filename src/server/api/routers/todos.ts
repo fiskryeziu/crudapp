@@ -7,14 +7,6 @@ import {
 } from "~/server/api/trpc";
 
 export const todoRouter = createTRPCRouter({
-    hello: publicProcedure
-        .input(z.object({ text: z.string() }))
-        .query(({ input }) => {
-            return {
-                greeting: `Hello ${input.text}`,
-            };
-        }),
-
     getAll: protectedProcedure.query(async ({ ctx }) => {
         const userId = ctx.session?.user.id;
         const todos = await ctx.prisma.todo.findMany({
@@ -70,6 +62,24 @@ export const todoRouter = createTRPCRouter({
             })
             return todos
 
+        }),
+
+    editTodo: protectedProcedure
+        .input(z.object({
+            id: z.string(),
+            title: z.string(),
+            description: z.string()
+        }))
+        .mutation(async ({ ctx, input }) => {
+            await ctx.prisma.todo.update({
+                where: {
+                    id: input.id
+                },
+                data: {
+                    title: input.title,
+                    description: input.description
+                }
+            })
         }),
 
     todoCommpleted: protectedProcedure
