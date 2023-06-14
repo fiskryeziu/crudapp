@@ -20,7 +20,6 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
 
   const { mutate: update } = api.todos.todoCommpleted.useMutation({
     onSuccess: () => {
-      // void ctx.todos.invalidate();
       console.log("successfully updated to completed");
     },
     onError: (error) => {
@@ -29,7 +28,7 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
   });
   const { mutate: deleteTodo } = api.todos.deleteTodo.useMutation({
     onSuccess: () => {
-      // void ctx.todos.invalidate();
+      void ctx.todos.invalidate();
       console.log("successfully deleted to completed");
     },
     onError: (error) => {
@@ -37,7 +36,7 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
     },
   });
 
-  // const ctx = api.useContext();
+  const ctx = api.useContext();
 
   const updateHandler = (id: string) => {
     update({
