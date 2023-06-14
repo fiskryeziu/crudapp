@@ -18,7 +18,7 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
   const { active, hover, activeEnter, activeLeave, hoverEnter, hoverLeave } =
     useHover();
 
-  const { mutate } = api.todos.todoCommpleted.useMutation({
+  const { mutate: update } = api.todos.todoCommpleted.useMutation({
     onSuccess: () => {
       // void ctx.todos.invalidate();
       console.log("successfully updated to completed");
@@ -27,11 +27,26 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
       console.log(error.message);
     },
   });
+  const { mutate: deleteTodo } = api.todos.deleteTodo.useMutation({
+    onSuccess: () => {
+      // void ctx.todos.invalidate();
+      console.log("successfully deleted to completed");
+    },
+    onError: (error) => {
+      console.log(error.message);
+    },
+  });
 
   // const ctx = api.useContext();
 
-  const clickHandler = (id: string) => {
-    mutate({
+  const updateHandler = (id: string) => {
+    update({
+      id,
+    });
+    setCompleted(true);
+  };
+  const deleteHandler = (id: string) => {
+    deleteTodo({
       id,
     });
     setCompleted(true);
@@ -56,7 +71,7 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
               className="flex h-4 w-4 items-center rounded-full border border-white/20"
               onMouseEnter={activeEnter}
               onMouseLeave={activeLeave}
-              onClick={() => clickHandler(todo.id)}
+              onClick={() => updateHandler(todo.id)}
             >
               {active && <MdDone className="text-white/20" />}
             </button>
@@ -74,7 +89,7 @@ const TodoItem: React.FC<ITodoProps> = ({ todo }) => {
                   <TbPencilMinus size={20} className="text-btn-primary" />
                 </button>
 
-                <button>
+                <button onClick={() => deleteHandler(todo.id)}>
                   <TbTrashFilled size={20} className="text-red-600" />
                 </button>
               </>
