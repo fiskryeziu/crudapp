@@ -21,23 +21,10 @@ const TodoModal: React.FC<ITodoProps> = ({
   desc,
 }) => {
   const [focused, setFocused] = useState(false);
-  const [openDate, setOpenDate] = useState(false);
   const [startDate, setStartDate] = useState<Date>(new Date());
-  const sampleBtn = useRef<HTMLButtonElement>(null);
-  const dateRef = useRef<ReactDatePicker>();
 
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
-  const onDateFocus = () => {
-    setOpenDate(true);
-  };
-  const onDateBlur = () => setOpenDate(false);
-
-  useEffect(() => {
-    if (openDate) {
-      sampleBtn.current?.focus();
-    }
-  }, [openDate]);
 
   return (
     <div
@@ -64,11 +51,8 @@ const TodoModal: React.FC<ITodoProps> = ({
         onChange={(e) => setDesc(e.target.value)}
       />
       <div className="flex items-center justify-between gap-3 border-t border-secondary py-2">
-        <div>
+        <div className="flex items-center gap-3">
           <DatePicker
-            // renderCustomHeader={() => (
-            //   <CustomHeader startDate={startDate} setStartDate={setStartDate} />
-            // )}
             selected={startDate}
             minDate={new Date()}
             onChange={(date) => setStartDate(date!)}
@@ -81,6 +65,14 @@ const TodoModal: React.FC<ITodoProps> = ({
             }
             id="datePicker"
           />
+          <select className="rounded-md bg-secondary p-2 text-white">
+            <option value="" selected>
+              Daily
+            </option>
+            <option value="">Weekly</option>
+            <option value="">Monthly</option>
+            <option value="">None</option>
+          </select>
         </div>
         <div>
           <button
@@ -101,26 +93,4 @@ const TodoModal: React.FC<ITodoProps> = ({
   );
 };
 
-function CustomHeader({
-  startDate,
-  setStartDate,
-}: {
-  startDate: Date;
-  setStartDate: (value: Date) => void;
-}) {
-  const today = new Date();
-  today.setDate(today.getDate() + 7);
-
-  const clickHandler = () => {
-    setStartDate(today);
-  };
-  return (
-    <div className="flex flex-col">
-      <button onClick={clickHandler}>Today</button>
-      <button>Tomorrow</button>
-      <button>Next Week</button>
-      <button>Next Month</button>
-    </div>
-  );
-}
 export default TodoModal;
