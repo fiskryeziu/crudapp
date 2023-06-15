@@ -4,9 +4,6 @@ import { api } from "~/utils/api";
 import { HiArrowsUpDown } from "react-icons/hi2";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 
-import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
 import Empty from "~/components/empty";
 import TodoModal from "~/components/todoModal";
 import TodoItem from "~/components/todoItem";
