@@ -48,7 +48,8 @@ export const todoRouter = createTRPCRouter({
             z.object({
                 text: z.string(),
                 startDate: z.date(),
-                description: z.string()
+                description: z.string(),
+                repeat: z.enum(['DAILY', 'WEEKLY', 'MONTHLY']).or(z.null())
             }))
         .mutation(async ({ ctx, input }) => {
             const userId = ctx.session?.user.id
@@ -57,7 +58,8 @@ export const todoRouter = createTRPCRouter({
                     startDate: input.startDate,
                     title: input.text,
                     userId,
-                    description: input.description
+                    description: input.description,
+                    repeat: input.repeat
                 },
             })
             return todos
@@ -68,7 +70,8 @@ export const todoRouter = createTRPCRouter({
         .input(z.object({
             id: z.string(),
             title: z.string(),
-            description: z.string()
+            description: z.string(),
+            repeat: z.enum(['DAILY', 'WEEKLY', 'MONTHLY']).or(z.null())
         }))
         .mutation(async ({ ctx, input }) => {
             await ctx.prisma.todo.update({
@@ -77,7 +80,8 @@ export const todoRouter = createTRPCRouter({
                 },
                 data: {
                     title: input.title,
-                    description: input.description
+                    description: input.description,
+                    repeat: input.repeat
                 }
             })
         }),

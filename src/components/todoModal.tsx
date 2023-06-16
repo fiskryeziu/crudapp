@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import DatePicker, { ReactDatePicker } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FcCalendar } from "react-icons/fc";
+import { type ERepeat } from "~/pages/todo";
 
 interface ITodoProps {
   setOpen: (value: boolean) => void;
@@ -10,6 +11,7 @@ interface ITodoProps {
   desc: string;
   setTitle: (value: string) => void;
   setDesc: (value: string) => void;
+  setRepeatMode: (value: ERepeat) => void;
 }
 
 const TodoModal: React.FC<ITodoProps> = ({
@@ -17,6 +19,7 @@ const TodoModal: React.FC<ITodoProps> = ({
   onSubmit,
   setTitle,
   setDesc,
+  setRepeatMode,
   title,
   desc,
 }) => {
@@ -65,13 +68,15 @@ const TodoModal: React.FC<ITodoProps> = ({
             }
             id="datePicker"
           />
-          <select className="rounded-md bg-secondary p-2 text-white">
-            <option value="" selected>
-              Daily
-            </option>
-            <option value="">Weekly</option>
-            <option value="">Monthly</option>
-            <option value="">None</option>
+          <select
+            className="rounded-md bg-secondary p-2 text-white"
+            onChange={(e) => setRepeatMode(e.target.value as ERepeat)}
+            defaultValue={"DAILY"}
+          >
+            <option value="DAILY">Daily</option>
+            <option value="WEEKLY">Weekly</option>
+            <option value="MONTHLY">Monthly</option>
+            <option value="NONE">None</option>
           </select>
         </div>
         <div>

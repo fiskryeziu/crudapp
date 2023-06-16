@@ -8,11 +8,18 @@ import Empty from "~/components/empty";
 import TodoModal from "~/components/todoModal";
 import TodoItem from "~/components/todoItem";
 
+export enum ERepeat {
+  MONTHLY = "MONTHLY",
+  DAILY = "DAILY",
+  WEEKLY = "WEEKLY",
+  NONE = "NONE",
+}
 export default function TodoPage() {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [inputTitle, setInputTitle] = useState("");
   const [inputDesc, setInputDesc] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [repeatMode, setRepeatMode] = useState<ERepeat>(ERepeat.DAILY);
 
   const { status } = useSession();
 
@@ -31,8 +38,14 @@ export default function TodoPage() {
   const ctx = api.useContext();
 
   const submitHandler = () => {
-    //mutate method with the input in it
-    mutate({ text: inputTitle, startDate, description: inputDesc });
+    const newRepeat = repeatMode === ERepeat.NONE ? null : repeatMode;
+
+    mutate({
+      text: inputTitle,
+      startDate,
+      description: inputDesc,
+      repeat: newRepeat,
+    });
     setOpenModal(false);
   };
 
@@ -54,15 +67,18 @@ export default function TodoPage() {
     day: "numeric",
     month: "short",
   };
+  console.log(repeatMode);
   const formattedDate = date.toLocaleDateString("en-US", options);
   const pageProps = {
     setOpen: setOpenModal,
     onSubmit: submitHandler,
     setTitle: setInputTitle,
     setDesc: setInputDesc,
+    setRepeatMode: setRepeatMode,
     desc: inputDesc,
     title: inputTitle,
   };
+
   return (
     <>
       <main className="flex   grow flex-col items-center gap-2">
