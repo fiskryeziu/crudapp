@@ -74,8 +74,8 @@ const TodoModal: React.FC<ITodoProps> = ({
             defaultValue={"DAILY"}
           >
             <option value="DAILY">Daily</option>
-            <option value="WEEKLY">Weekly</option>
-            <option value="MONTHLY">Monthly</option>
+            <option value="NEXT_WEEK">Next Week</option>
+            <option value="NEXT_MONTH">Next Month</option>
             <option value="NONE">None</option>
           </select>
         </div>

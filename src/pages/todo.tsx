@@ -9,9 +9,9 @@ import TodoModal from "~/components/todoModal";
 import TodoItem from "~/components/todoItem";
 
 export enum ERepeat {
-  MONTHLY = "MONTHLY",
+  NEXT_MONTH = "NEXT_MONTH",
   DAILY = "DAILY",
-  WEEKLY = "WEEKLY",
+  NEXT_WEEK = "NEXT_WEEK",
   NONE = "NONE",
 }
 export default function TodoPage() {

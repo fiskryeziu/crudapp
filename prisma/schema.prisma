@@ -19,23 +19,16 @@ model Todo {
   updatedAt     DateTime @updatedAt
   startDate     DateTime
   completedAt   DateTime?
-  specificDates SpecificDate[]
+  specificDate  DateTime?
   repeat        Repeat?
   userId        String
   user          User     @relation(fields: [userId], references: [id])
 }
 
-model SpecificDate {
-  id        Int      @id @default(autoincrement())
-  date      DateTime
-  todoId    String
-  todo      Todo     @relation(fields: [todoId], references: [id])
-}
-
 enum Repeat {
   DAILY
-  WEEKLY
-  MONTHLY
+  NEXT_WEEK
+  NEXT_MONTH
 }
 
 // Necessary for Next auth

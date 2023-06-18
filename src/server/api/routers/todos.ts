@@ -34,6 +34,16 @@ export const todoRouter = createTRPCRouter({
                         }
                     }
                 }
+                // if (todo.repeat === null) {
+                //     const today = new Date()
+                //     if (todo.specificDate) {
+
+                //         if (todo.specificDate.getDate() === today.getDate()) {
+                //             console.log('it's equal');
+                //             return todo
+                //         }
+                //     }
+                // }
                 return todo;
             })
         );
@@ -49,7 +59,7 @@ export const todoRouter = createTRPCRouter({
                 text: z.string(),
                 startDate: z.date(),
                 description: z.string(),
-                repeat: z.enum(['DAILY', 'WEEKLY', 'MONTHLY']).or(z.null())
+                repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH']).or(z.null())
             }))
         .mutation(async ({ ctx, input }) => {
             const userId = ctx.session?.user.id
@@ -71,7 +81,7 @@ export const todoRouter = createTRPCRouter({
             id: z.string(),
             title: z.string(),
             description: z.string(),
-            repeat: z.enum(['DAILY', 'WEEKLY', 'MONTHLY']).or(z.null())
+            repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH'])
         }))
         .mutation(async ({ ctx, input }) => {
             await ctx.prisma.todo.update({
