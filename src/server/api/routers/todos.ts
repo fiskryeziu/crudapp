@@ -2,7 +2,6 @@ import { Todo } from "@prisma/client";
 import { z } from "zod";
 import {
     createTRPCRouter,
-    publicProcedure,
     protectedProcedure,
 } from "~/server/api/trpc";
 
@@ -15,8 +14,13 @@ export const todoRouter = createTRPCRouter({
             },
         });
 
+        const today = new Date()
+        const todayTodos = todos.filter(todo => todo.specificDate ? todo.specificDate.getDate() === today.getDate() : true)
+
+        console.log(todayTodos);
+
         const updatedTodos = await Promise.all(
-            todos.map(async (todo) => {
+            todayTodos.map(async (todo) => {
                 if (todo.repeat === 'DAILY') {
                     const today = new Date();
                     if (todo.completedAt !== null && todo.completed) {
@@ -34,20 +38,11 @@ export const todoRouter = createTRPCRouter({
                         }
                     }
                 }
-                // if (todo.repeat === null) {
-                //     const today = new Date()
-                //     if (todo.specificDate) {
-
-                //         if (todo.specificDate.getDate() === today.getDate()) {
-                //             console.log('it's equal');
-                //             return todo
-                //         }
-                //     }
-                // }
                 return todo;
             })
         );
         const filterTodo = updatedTodos.filter(todo => todo.completed === false)
+
 
         return filterTodo
 
