@@ -8,6 +8,29 @@ import {
 export const todoRouter = createTRPCRouter({
     getAll: protectedProcedure.query(async ({ ctx }) => {
         const userId = ctx.session?.user.id;
+        const deleted = await ctx.prisma.todo.deleteMany({
+            where: {
+                OR: [
+                    {
+                        userId,
+                        completed: true,
+                        repeat: 'NEXT_MONTH',
+                    },
+                    {
+                        userId,
+                        completed: true,
+                        repeat: 'NEXT_WEEK',
+                    },
+                    {
+                        userId,
+                        completed: true,
+                        repeat: null,
+                    },
+
+                ]
+            }
+        })
+        console.log(deleted);
         const todos = await ctx.prisma.todo.findMany({
             where: {
                 userId,
@@ -17,7 +40,10 @@ export const todoRouter = createTRPCRouter({
         const today = new Date()
         const todayTodos = todos.filter(todo => todo.specificDate ? todo.specificDate.getDate() === today.getDate() : true)
 
-        console.log(todayTodos);
+        // console.log(todayTodos);
+
+        //TODO: if it's not daily then look if it's completed
+        // if so delete that todo  with prisma.delete 
 
         const updatedTodos = await Promise.all(
             todayTodos.map(async (todo) => {
