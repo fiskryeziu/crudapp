@@ -12,6 +12,7 @@ interface ITodoProps {
   setTitle: (value: string) => void;
   setDesc: (value: string) => void;
   setRepeatMode: (value: ERepeat) => void;
+  setSpecificDate: (value: Date) => void;
 }
 
 const TodoModal: React.FC<ITodoProps> = ({
@@ -20,6 +21,7 @@ const TodoModal: React.FC<ITodoProps> = ({
   setTitle,
   setDesc,
   setRepeatMode,
+  setSpecificDate,
   title,
   desc,
 }) => {
@@ -28,6 +30,24 @@ const TodoModal: React.FC<ITodoProps> = ({
 
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
+
+  const selectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const today = new Date();
+
+    if (e.target.value === "NEXT_WEEK") {
+      today.setDate(today.getDate() + 7);
+      setStartDate(today);
+      setSpecificDate(today);
+    } else if (e.target.value === "NEXT_MONTH") {
+      today.setMonth(today.getMonth() + 1);
+      setStartDate(today);
+      setSpecificDate(today);
+    } else {
+      setStartDate(today);
+    }
+
+    setRepeatMode(e.target.value as ERepeat);
+  };
 
   return (
     <div
@@ -70,7 +90,7 @@ const TodoModal: React.FC<ITodoProps> = ({
           />
           <select
             className="rounded-md bg-secondary p-2 text-white"
-            onChange={(e) => setRepeatMode(e.target.value as ERepeat)}
+            onChange={selectHandler}
             defaultValue={"DAILY"}
           >
             <option value="DAILY">Daily</option>

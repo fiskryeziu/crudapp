@@ -80,7 +80,8 @@ export const todoRouter = createTRPCRouter({
                 text: z.string(),
                 startDate: z.date(),
                 description: z.string(),
-                repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH']).or(z.null())
+                repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH']).or(z.null()),
+                specificDate: z.date().optional()
             }))
         .mutation(async ({ ctx, input }) => {
             const userId = ctx.session?.user.id
@@ -90,12 +91,15 @@ export const todoRouter = createTRPCRouter({
                     title: input.text,
                     userId,
                     description: input.description,
-                    repeat: input.repeat
+                    repeat: input.repeat,
+                    specificDate: input.specificDate
+
                 },
             })
             return todos
 
         }),
+
 
     editTodo: protectedProcedure
         .input(z.object({

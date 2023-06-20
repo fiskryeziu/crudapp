@@ -20,6 +20,7 @@ export default function TodoPage() {
   const [inputDesc, setInputDesc] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [repeatMode, setRepeatMode] = useState<ERepeat>(ERepeat.DAILY);
+  const [specificDate, setSpecificDate] = useState<Date | undefined>();
 
   const { status } = useSession();
 
@@ -45,6 +46,7 @@ export default function TodoPage() {
       startDate,
       description: inputDesc,
       repeat: newRepeat,
+      specificDate,
     });
     setOpenModal(false);
   };
@@ -67,17 +69,19 @@ export default function TodoPage() {
     day: "numeric",
     month: "short",
   };
-  console.log(repeatMode);
   const formattedDate = date.toLocaleDateString("en-US", options);
   const pageProps = {
     setOpen: setOpenModal,
     onSubmit: submitHandler,
     setTitle: setInputTitle,
     setDesc: setInputDesc,
-    setRepeatMode: setRepeatMode,
+    setRepeatMode,
+    setSpecificDate,
     desc: inputDesc,
     title: inputTitle,
   };
+
+  console.log(todos);
 
   return (
     <>
