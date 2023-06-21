@@ -106,7 +106,8 @@ export const todoRouter = createTRPCRouter({
             id: z.string(),
             title: z.string(),
             description: z.string(),
-            repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH'])
+            repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH']).or(z.null()),
+            specificDate: z.date().optional()
         }))
         .mutation(async ({ ctx, input }) => {
             await ctx.prisma.todo.update({
@@ -116,7 +117,8 @@ export const todoRouter = createTRPCRouter({
                 data: {
                     title: input.title,
                     description: input.description,
-                    repeat: input.repeat
+                    repeat: input.repeat,
+                    specificDate: input.specificDate
                 }
             })
         }),

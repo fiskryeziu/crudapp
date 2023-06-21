@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import DatePicker, { ReactDatePicker } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FcCalendar } from "react-icons/fc";
 import { type ERepeat } from "~/pages/todo";
