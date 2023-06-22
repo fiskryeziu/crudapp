@@ -154,6 +154,24 @@ export const todoRouter = createTRPCRouter({
             });
 
 
-        })
+        }),
+
+    upcomingTodos: protectedProcedure.query(async ({ ctx }) => {
+        const userId = ctx.session?.user.id;
+
+
+        const todos = await ctx.prisma.todo.findMany({
+            where: {
+                userId,
+                specificDate: {
+                    gt: new Date()
+                }
+            },
+        });
+
+
+        return todos
+
+    })
 
 });

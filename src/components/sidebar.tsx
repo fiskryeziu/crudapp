@@ -17,17 +17,17 @@ const Sidebar: React.FC<IStateProps> = ({ open }) => {
       }`}
     >
       <Link
-        href={"/todo"}
+        href={"/today"}
         className={` flex items-center gap-3 rounded-lg p-2 text-white ${
-          path === "/todo" ? "bg-zinc-700" : ""
+          path === "/today" ? "bg-zinc-700" : ""
         }`}
       >
         <FcCalendar className="text-btn-primary" /> <p>Today</p>
       </Link>
       <Link
-        href={"/"}
+        href={"/upcoming"}
         className={` flex items-center gap-3 rounded-lg p-2 text-white ${
-          path === "/" ? "bg-zinc-700" : ""
+          path === "/upcoming" ? "bg-zinc-700" : ""
         }`}
       >
         <MdOutlineUpcoming className="text-btn-primary" /> <p>Upcomming</p>

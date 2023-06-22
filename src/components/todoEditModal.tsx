@@ -1,6 +1,6 @@
 import { type Todo } from "@prisma/client";
 import React, { useState } from "react";
-import { ERepeat } from "~/pages/todo";
+import { ERepeat } from "~/pages/today";
 import { api } from "~/utils/api";
 import DatePicker from "react-datepicker";
 import { FcCalendar } from "react-icons/fc";
