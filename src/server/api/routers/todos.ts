@@ -1,4 +1,3 @@
-import { Todo } from "@prisma/client";
 import { z } from "zod";
 import {
     createTRPCRouter,
@@ -22,6 +21,7 @@ export const todoRouter = createTRPCRouter({
             || todo.repeat === null)
 
         if (toDelete) {
+            const today = new Date()
             await ctx.prisma.todo.deleteMany({
                 where: {
                     OR: [
@@ -40,6 +40,13 @@ export const todoRouter = createTRPCRouter({
                             completed: true,
                             repeat: null,
                         },
+                        {
+                            userId,
+                            completed: false,
+                            specificDate: {
+                                lt: today
+                            }
+                        }
 
                     ]
                 }
@@ -49,10 +56,6 @@ export const todoRouter = createTRPCRouter({
         const today = new Date()
         const todayTodos = todos.filter(todo => todo.specificDate ? todo.specificDate.getDate() === today.getDate() : true)
 
-        // console.log(todayTodos);
-
-        //TODO: if it's not daily then look if it's completed
-        // if so delete that todo  with prisma.delete 
 
         const updatedTodos = await Promise.all(
             todayTodos.map(async (todo) => {
