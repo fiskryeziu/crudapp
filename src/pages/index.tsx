@@ -1,13 +1,9 @@
 import { type NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>
@@ -34,10 +30,10 @@ const AuthShowcase: React.FC = () => {
         className=" rounded-full bg-btn-primary  px-10 py-4 uppercase tracking-widest text-white duration-200 ease-in  hover:shadow-lg hover:shadow-btn-primary/50 hover:duration-100 hover:ease-in"
         onClick={
           sessionData
-            ? () => void router.push("/todo")
+            ? () => void router.push("/today")
             : () =>
                 void signIn("", {
-                  callbackUrl: `${window.location.origin}/todo`,
+                  callbackUrl: `${window.location.origin}/today`,
                 })
         }
       >

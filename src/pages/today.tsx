@@ -15,7 +15,7 @@ export enum ERepeat {
   NONE = "NONE",
 }
 export default function TodayTodoPage() {
-  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [startDate] = useState<Date>(new Date());
   const [inputTitle, setInputTitle] = useState("");
   const [inputDesc, setInputDesc] = useState("");
   const [openModal, setOpenModal] = useState(false);
@@ -81,7 +81,9 @@ export default function TodayTodoPage() {
     title: inputTitle,
   };
 
-  console.log(todos);
+  const sortHandler = () => {
+    return "";
+  };
 
   return (
     <>
@@ -101,7 +103,7 @@ export default function TodayTodoPage() {
             </p>
           </div>
 
-          <button>
+          <button onClick={sortHandler}>
             <HiArrowsUpDown size={25} className="text-white" />
           </button>
         </div>

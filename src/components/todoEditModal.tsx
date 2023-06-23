@@ -13,14 +13,15 @@ interface ITodoProps {
 const TodoEditModal: React.FC<ITodoProps> = ({ todo, setEdit }) => {
   const [focused, setFocused] = useState(false);
 
-  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>(
+    todo.specificDate || new Date()
+  );
   const [title, setTitle] = useState(todo.title);
   const [desc, setDesc] = useState(todo.description);
   const [repeatMode, setRepeatMode] = useState<ERepeat | null>(
     todo.repeat as ERepeat
   );
 
-  console.log(repeatMode);
   const [specificDate, setSpecificDate] = useState<Date | undefined>(
     todo.specificDate || undefined
   );
