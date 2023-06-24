@@ -7,6 +7,8 @@ import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import Empty from "~/components/empty";
 import TodoModal from "~/components/todoModal";
 import TodoItem from "~/components/todoItem";
+import Loader from "~/components/loader";
+import AccessDenied from "~/components/accessDenied";
 
 export enum ERepeat {
   NEXT_MONTH = "NEXT_MONTH",
@@ -56,11 +58,11 @@ export default function TodayTodoPage() {
   };
 
   if (status === "loading") {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   if (status === "unauthenticated") {
-    return <p>Access Denied</p>;
+    return <AccessDenied />;
   }
 
   const date: Date = new Date();

@@ -1,6 +1,8 @@
 import { useSession } from "next-auth/react";
 import React from "react";
+import AccessDenied from "~/components/accessDenied";
 import Empty from "~/components/empty";
+import Loader from "~/components/loader";
 import TodoItem from "~/components/todoItem";
 import { api } from "~/utils/api";
 
@@ -10,11 +12,11 @@ const UpcomingTodoPage = () => {
   const { status } = useSession();
 
   if (status === "loading") {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   if (status === "unauthenticated") {
-    return <p>Access Denied</p>;
+    return <AccessDenied />;
   }
   return (
     <main className="flex grow flex-col items-center gap-2">
