@@ -3,16 +3,28 @@ import {
     createTRPCRouter,
     protectedProcedure,
 } from "~/server/api/trpc";
+import { type Prisma } from '@prisma/client';
+
+
 
 export const todoRouter = createTRPCRouter({
-    getAll: protectedProcedure.query(async ({ ctx }) => {
+    getAll: protectedProcedure.input(z.object({
+        sort: z.string()
+    })).query(async ({ ctx, input }) => {
         const userId = ctx.session?.user.id;
+        console.log(input);
+
 
 
         const todos = await ctx.prisma.todo.findMany({
             where: {
                 userId,
             },
+            orderBy: [
+                {
+                    startDate: input.sort as Prisma.SortOrder
+                }
+            ]
         });
 
         const toDelete = todos.some(todo => todo.completed === true

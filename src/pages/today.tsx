@@ -23,10 +23,11 @@ export default function TodayTodoPage() {
   const [openModal, setOpenModal] = useState(false);
   const [repeatMode, setRepeatMode] = useState<ERepeat>(ERepeat.DAILY);
   const [specificDate, setSpecificDate] = useState<Date | undefined>();
+  const [sort, setSort] = useState("asc");
 
   const { status } = useSession();
 
-  const { data: todos } = api.todos.getAll.useQuery();
+  const { data: todos } = api.todos.getAll.useQuery({ sort });
   const { mutate } = api.todos.createTodo.useMutation({
     onSuccess: () => {
       setInputTitle("");
@@ -84,7 +85,7 @@ export default function TodayTodoPage() {
   };
 
   const sortHandler = () => {
-    return "";
+    sort === "asc" ? setSort("desc") : setSort("asc");
   };
 
   return (
