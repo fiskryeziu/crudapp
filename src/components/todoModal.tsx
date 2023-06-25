@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FcCalendar } from "react-icons/fc";
-import { type ERepeat } from "~/pages/todo";
+import { type ERepeat } from "~/pages/today";
 
 interface ITodoProps {
   setOpen: (value: boolean) => void;
@@ -51,7 +51,7 @@ const TodoModal: React.FC<ITodoProps> = ({
 
   return (
     <div
-      className={`relative flex w-1/2 flex-col rounded-md p-2 outline outline-1 ${
+      className={`relative flex w-full flex-col rounded-md p-2 outline outline-1 ${
         focused ? "outline-white" : "outline-gray-500"
       } `}
     >
@@ -73,7 +73,7 @@ const TodoModal: React.FC<ITodoProps> = ({
         value={desc}
         onChange={(e) => setDesc(e.target.value)}
       />
-      <div className="flex items-center justify-between gap-3 border-t border-secondary py-2">
+      <div className="flex flex-col items-center justify-between gap-3 border-t border-secondary py-2 sm:flex-row">
         <div className="flex items-center gap-3">
           <DatePicker
             selected={startDate}
@@ -99,7 +99,7 @@ const TodoModal: React.FC<ITodoProps> = ({
             <option value="NONE">None</option>
           </select>
         </div>
-        <div>
+        <div className="flex gap-2">
           <button
             className="rounded-md bg-secondary px-2 py-1 text-white hover:brightness-150"
             onClick={() => setOpen(false)}

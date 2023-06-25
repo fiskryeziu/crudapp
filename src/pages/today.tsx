@@ -90,34 +90,37 @@ export default function TodayTodoPage() {
 
   return (
     <>
-      <main className="flex   grow flex-col items-center gap-2">
-        <div className="my-10 flex w-1/2 items-center justify-between">
-          <button>
-            <TbSquareRoundedPlusFilled
-              size={50}
-              className="ease text-btn-primary duration-150 hover:brightness-125"
-              onClick={handlerOpenModal}
-            />
-          </button>
-          <div className="flex flex-col">
-            <p className="text-center text-xl text-white">Today</p>
-            <p className="text-center font-thin text-white/40">
-              {formattedDate}
-            </p>
+      <main className="flex grow flex-col items-center gap-2">
+        <div className="flex w-full flex-col md:w-3/4 lg:w-1/2 ">
+          <div className="my-10 flex items-center justify-between">
+            <button>
+              <TbSquareRoundedPlusFilled
+                size={50}
+                className="ease text-btn-primary duration-150 hover:brightness-125"
+                onClick={handlerOpenModal}
+              />
+            </button>
+            <div className="flex flex-col">
+              <p className="text-center text-xl text-white">Today</p>
+              <p className="text-center font-thin text-white/40">
+                {formattedDate}
+              </p>
+            </div>
+
+            <button onClick={sortHandler}>
+              <HiArrowsUpDown size={25} className="text-white" />
+            </button>
           </div>
+          <div className="relative flex flex-col gap-4">
+            {todos?.map((todo) => (
+              <TodoItem todo={todo} key={todo.id} />
+            ))}
+          </div>
+          {openModal && <TodoModal {...pageProps} />}
 
-          <button onClick={sortHandler}>
-            <HiArrowsUpDown size={25} className="text-white" />
-          </button>
+          {todos === undefined ||
+            (todos.length === 0 && !openModal && <Empty />)}
         </div>
-        <div className="relative flex w-1/2 flex-col gap-4">
-          {todos?.map((todo) => (
-            <TodoItem todo={todo} key={todo.id} />
-          ))}
-        </div>
-        {openModal && <TodoModal {...pageProps} />}
-
-        {todos === undefined || (todos.length === 0 && !openModal && <Empty />)}
       </main>
     </>
   );

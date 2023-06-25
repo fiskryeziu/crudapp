@@ -95,8 +95,8 @@ const TodoEditModal: React.FC<ITodoProps> = ({ todo, setEdit }) => {
         value={desc}
         onChange={(e) => setDesc(e.target.value)}
       />
-      <div className="flex items-center justify-between border-t border-secondary py-2">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col items-center justify-between border-t border-secondary py-2 sm:flex-row md:flex-row">
+        <div className="flex items-center gap-2">
           <DatePicker
             selected={startDate}
             minDate={new Date()}
@@ -121,7 +121,7 @@ const TodoEditModal: React.FC<ITodoProps> = ({ todo, setEdit }) => {
             <option value="NONE">None</option>
           </select>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 py-2 sm:py-0">
           <button
             className="rounded-md bg-secondary px-2 py-1 text-white hover:brightness-150"
             onClick={() => setEdit(false)}

@@ -12,8 +12,10 @@ const Sidebar: React.FC<IStateProps> = ({ open }) => {
   const path = router.pathname;
   return (
     <div
-      className={`ease flex translate-x-0 flex-col gap-6 bg-secondary px-4 py-10 duration-200   ${
-        open ? "h-[calc(100vh-3.5em)] w-80" : "w-0   translate-x-[-400px]"
+      className={`ease fixed z-50 flex  translate-x-0 flex-col gap-6 bg-secondary duration-200 md:relative   ${
+        open
+          ? "h-[calc(100vh-3.5em)] w-72 px-4 py-10"
+          : "w-0 translate-x-[-400px] px-0 py-10"
       }`}
     >
       <Link
