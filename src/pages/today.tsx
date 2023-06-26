@@ -91,7 +91,7 @@ export default function TodayTodoPage() {
   return (
     <>
       <main className="flex grow flex-col items-center gap-2">
-        <div className="flex w-full flex-col md:w-3/4 lg:w-1/2 ">
+        <div className="flex w-full flex-col md:w-[500px]">
           <div className="my-10 flex items-center justify-between">
             <button>
               <TbSquareRoundedPlusFilled

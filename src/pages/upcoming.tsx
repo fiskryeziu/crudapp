@@ -20,7 +20,7 @@ const UpcomingTodoPage = () => {
   }
   return (
     <main className="flex grow flex-col items-center gap-2">
-      <div className="flex w-full flex-col items-center md:w-3/4 lg:w-1/2">
+      <div className="flex w-full flex-col items-center md:w-[500px]">
         <div className="my-10">
           <p className="text-center text-xl tracking-wider text-white">
             Upcoming
