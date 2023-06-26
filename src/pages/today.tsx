@@ -91,8 +91,8 @@ export default function TodayTodoPage() {
   return (
     <>
       <main className="flex grow flex-col items-center gap-2">
-        <div className="flex w-full flex-col md:w-[500px]">
-          <div className="my-10 flex items-center justify-between">
+        <div className="flex w-full flex-col items-center md:w-[500px]">
+          <div className="my-10 flex w-full items-center justify-between">
             <button>
               <TbSquareRoundedPlusFilled
                 size={50}
@@ -111,7 +111,7 @@ export default function TodayTodoPage() {
               <HiArrowsUpDown size={25} className="text-white" />
             </button>
           </div>
-          <div className="relative flex flex-col gap-4">
+          <div className="relative flex w-full flex-col gap-4">
             {todos?.map((todo) => (
               <TodoItem todo={todo} key={todo.id} />
             ))}
