@@ -1,10 +1,3 @@
-<p align="center">
-<a href=https://github.com/fiskryeziu/crudapp target="_blank">
-<img src='/placeholder.jpg' width="100%" alt="Banner" />
-</a>
-</p>
-
-
 
 <p align="center">
 <img src="https://img.shields.io/github/languages/code-size/fiskryeziu/crudapp" alt="GitHub code size in bytes" />
@@ -169,9 +162,5 @@ yarn dev
 
 ## ☁️ Deploy
 
-`[Application name](Your App URL)`
-
-## 📄 License
-
-[**Add Your License**](https://choosealicense.com)
+`[crudapp](https://crudapp-green.vercel.app/)`
 
