@@ -15,21 +15,17 @@ crudapp is a project built with Next.js and Prisma, using NextAuth for authentic
 
 ## 🔍 Table of Contents
 
-* [📁 Project Structure](#project-structure)
+* [📁 Project Structure](#-project-structure)
 
-* [📝 Project Summary](#project-summary)
+* [📝 Project Summary](#-project-summary)
 
-* [💻 Stack](#stack)
+* [💻 Stack](#-stack)
 
-* [⚙️ Setting Up](#setting-up)
+* [⚙️ Setting Up](#-setting-up)
 
-* [🚀 Run Locally](#run-locally)
+* [🚀 Run Locally](#-run-locally)
 
-* [🙌 Contributors](#contributors)
-
-* [☁️ Deploy](#deploy)
-
-* [📄 License](#license)
+* [🙌 Contributors](#-contributors)
 
 ## 📁 Project Structure
 
@@ -159,8 +155,3 @@ yarn dev
 <a href="https://github.com/fiskryeziu/crudapp/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=fiskryeziu/crudapp" />
 </a>
-
-## ☁️ Deploy
-
-`[crudapp](https://crudapp-green.vercel.app/)`
-
