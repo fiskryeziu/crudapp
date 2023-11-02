@@ -9,6 +9,7 @@ import TodoModal from "~/components/todoModal";
 import TodoItem from "~/components/todoItem";
 import Loader from "~/components/loader";
 import AccessDenied from "~/components/accessDenied";
+import { isToday } from "~/server/helpers/dateChecker";
 
 export enum ERepeat {
   NEXT_MONTH = "NEXT_MONTH",
@@ -42,13 +43,11 @@ export default function TodayTodoPage() {
   const ctx = api.useContext();
 
   const submitHandler = () => {
-    const newRepeat = repeatMode === ERepeat.NONE ? null : repeatMode;
-
     mutate({
       text: inputTitle,
       startDate,
       description: inputDesc,
-      repeat: newRepeat,
+      repeat: repeatMode,
       specificDate,
     });
     setOpenModal(false);

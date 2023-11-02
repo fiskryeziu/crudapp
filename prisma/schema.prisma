@@ -11,24 +11,25 @@ datasource db {
 }
 
 model Todo {
-  id            String   @id @default(cuid())
-  title         String
-  description   String
-  completed     Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  startDate     DateTime
-  completedAt   DateTime?
-  specificDate  DateTime?
-  repeat        Repeat?
-  userId        String
-  user          User     @relation(fields: [userId], references: [id])
+  id           String    @id @default(cuid())
+  title        String
+  description  String
+  completed    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  startDate    DateTime
+  completedAt  DateTime?
+  specificDate DateTime?
+  repeat       Repeat?
+  userId       String
+  user         User      @relation(fields: [userId], references: [id])
 }
 
 enum Repeat {
   DAILY
   NEXT_WEEK
   NEXT_MONTH
+  NONE
 }
 
 // Necessary for Next auth

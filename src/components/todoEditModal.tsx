@@ -1,6 +1,6 @@
 import { type Todo } from "@prisma/client";
 import React, { useState } from "react";
-import { ERepeat } from "~/pages/today";
+import type { ERepeat } from "~/pages/today";
 import { api } from "~/utils/api";
 import DatePicker from "react-datepicker";
 import { FcCalendar } from "react-icons/fc";
@@ -18,9 +18,7 @@ const TodoEditModal: React.FC<ITodoProps> = ({ todo, setEdit }) => {
   );
   const [title, setTitle] = useState(todo.title);
   const [desc, setDesc] = useState(todo.description);
-  const [repeatMode, setRepeatMode] = useState<ERepeat | null>(
-    todo.repeat as ERepeat
-  );
+  const [repeatMode, setRepeatMode] = useState<ERepeat>(todo.repeat as ERepeat);
 
   const [specificDate, setSpecificDate] = useState<Date | undefined>(
     todo.specificDate || undefined
@@ -42,12 +40,12 @@ const TodoEditModal: React.FC<ITodoProps> = ({ todo, setEdit }) => {
   const onBlur = () => setFocused(false);
 
   const editHandler = () => {
-    const newRepeat = repeatMode === ERepeat.NONE ? null : repeatMode;
+    console.log(repeatMode);
     mutate({
       description: desc,
       id: todo.id,
       title,
-      repeat: newRepeat,
+      repeat: repeatMode,
       specificDate,
     });
     setEdit(false);
@@ -113,7 +111,7 @@ const TodoEditModal: React.FC<ITodoProps> = ({ todo, setEdit }) => {
           <select
             className="rounded-md bg-secondary p-2 text-white"
             onChange={selectHandler}
-            defaultValue={repeatMode as ERepeat}
+            defaultValue={repeatMode}
           >
             <option value="DAILY">Daily</option>
             <option value="NEXT_WEEK">Next Week</option>

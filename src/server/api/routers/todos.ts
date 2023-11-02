@@ -3,7 +3,8 @@ import {
     createTRPCRouter,
     protectedProcedure,
 } from "~/server/api/trpc";
-import { type Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { isGreaterThan24Hours } from "~/server/helpers/dateChecker";
 
 
 
@@ -19,6 +20,16 @@ export const todoRouter = createTRPCRouter({
         const todos = await ctx.prisma.todo.findMany({
             where: {
                 userId,
+                OR: [
+                    {
+                        specificDate: {
+                            lte: new Date(),
+                        },
+                    },
+                    {
+                        repeat: 'DAILY',
+                    },
+                ],
             },
             orderBy: [
                 {
@@ -30,7 +41,7 @@ export const todoRouter = createTRPCRouter({
         const toDelete = todos.some(todo => todo.completed === true
             && todo.repeat === 'NEXT_MONTH'
             || todo.repeat === 'NEXT_WEEK'
-            || todo.repeat === null)
+            || todo.repeat === 'NONE')
 
         if (toDelete) {
             const today = new Date()
@@ -50,7 +61,7 @@ export const todoRouter = createTRPCRouter({
                         {
                             userId,
                             completed: true,
-                            repeat: null,
+                            repeat: 'NONE',
                         },
                         {
                             userId,
@@ -72,12 +83,14 @@ export const todoRouter = createTRPCRouter({
         const updatedTodos = await Promise.all(
             todayTodos.map(async (todo) => {
                 const today = new Date();
-                if (todo.repeat === 'DAILY' && todo.completedAt && todo.completedAt.getDate() < today.getDate()) {
-                    await ctx.prisma.todo.update({
-                        where: { id: todo.id },
-                        data: { completed: false },
-                    });
-                    return { ...todo, completed: false };
+                if (todo.completedAt) {
+                    if (todo.repeat === 'DAILY' && isGreaterThan24Hours(todo.completedAt, today)) {
+                        await ctx.prisma.todo.update({
+                            where: { id: todo.id },
+                            data: { completed: false, completedAt: null },
+                        });
+                        return { ...todo, completed: false };
+                    }
                 }
                 return todo;
             })
@@ -95,7 +108,7 @@ export const todoRouter = createTRPCRouter({
                 text: z.string(),
                 startDate: z.date(),
                 description: z.string(),
-                repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH']).or(z.null()),
+                repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH', 'NONE']),
                 specificDate: z.date().optional()
             }))
         .mutation(async ({ ctx, input }) => {
@@ -121,7 +134,7 @@ export const todoRouter = createTRPCRouter({
             id: z.string(),
             title: z.string(),
             description: z.string(),
-            repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH']).or(z.null()),
+            repeat: z.enum(['DAILY', 'NEXT_WEEK', 'NEXT_MONTH', 'NONE']),
             specificDate: z.date().optional()
         }))
         .mutation(async ({ ctx, input }) => {
@@ -180,7 +193,6 @@ export const todoRouter = createTRPCRouter({
                 }
             },
         });
-
 
         return todos
 
